@@ -24,7 +24,7 @@ public partial class GaleriaOnlineDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Imagen>(entity =>
+        modelBuilder.Entity<Imagem>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__Imagens__3213E83F9ED81834");
         });
