@@ -1,7 +1,7 @@
 [
   {
     "ContainingType": "GaleriaOnline.WebApi.Controllers.ImagemController",
-    "Method": "GetTodasImagens",
+    "Method": "GetTodasAsImagens",
     "RelativePath": "api/Imagem",
     "HttpMethod": "GET",
     "IsController": true,

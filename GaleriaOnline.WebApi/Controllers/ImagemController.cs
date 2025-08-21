@@ -1,5 +1,6 @@
 ﻿using GaleriaOnline.WebApi.DTO;
 using GaleriaOnline.WebApi.Interfaces;
+using GaleriaOnline.WebApi.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,12 +11,12 @@ namespace GaleriaOnline.WebApi.Controllers
     public class ImagemController : ControllerBase
     {
         private readonly IImagemRepository _repository;
-        private readonly IWebHostEnvironment _environment;
+        private readonly IWebHostEnvironment _env;
 
-        public ImagemController(IImagemRepository repository, IWebHostEnvironment environment)
+        public ImagemController(IImagemRepository repository, IWebHostEnvironment env)
         {
             _repository = repository;
-            _environment = environment;
+            _env = env;
         }
 
         [HttpGet("{id}")]
@@ -24,14 +25,14 @@ namespace GaleriaOnline.WebApi.Controllers
             var imagem = await _repository.GetByIdAsync(id);
             if (imagem == null)
             {
-                return NotFound("Imagem não encontrada");
+                return NotFound();
             }
 
             return Ok(imagem);
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetTodasImagens()
+        public async Task<IActionResult> GetTodasAsImagens()
         {
             var imagens = await _repository.GetAllAsync();
             return Ok(imagens);
@@ -40,9 +41,9 @@ namespace GaleriaOnline.WebApi.Controllers
         [HttpPost("upload")]
         public async Task<IActionResult> UploadImagem([FromForm] ImagemDto dto)
         {
-            if (dto.Arquivo == null || dto.Arquivo.Length == 0 || String.IsNullOrWhiteSpace(dto.Nome))
+            if (dto.Arquivo == null || dto.Arquivo.Length == 0 || string.IsNullOrWhiteSpace(dto.Nome))
             {
-                return BadRequest("Deve ser enviado um Nome e uma Imagem");
+                return BadRequest("Deve ser enviado um Nome e uma Imagem.");
             }
 
             var extensao = Path.GetExtension(dto.Arquivo.FileName);
@@ -63,26 +64,24 @@ namespace GaleriaOnline.WebApi.Controllers
                 await dto.Arquivo.CopyToAsync(stream);
             }
 
-            var imagem = new Models.Imagem
+            var imagem = new Imagem
             {
                 Nome = dto.Nome,
-                Caminho = Path.Combine(pastaRelativa, nomeArquivo).Replace("\\", "/") // Normaliza o caminho para URL
-
+                Caminho = Path.Combine(pastaRelativa, nomeArquivo).Replace("\\", "/")
             };
 
             await _repository.CreateAsync(imagem);
 
-            return CreatedAtAction(nameof(GetImagemPorID), new {id = imagem.Id}, imagem);
-
+            return CreatedAtAction(nameof(GetImagemPorID), new { id = imagem.Id }, imagem);
         }
+
         [HttpPut("{id}")]
-        public async Task<IActionResult>
-            AtualizarImagem(int id, PutImagemDto imagemAtualizada)
+        public async Task<IActionResult> AtualizarImagem(int id, PutImagemDto imagemAtualizada)
         {
             var imagem = await _repository.GetByIdAsync(id);
             if (imagem == null)
             {
-                return NotFound("Imagem nao encontrada");
+                return NotFound("Imagem não encontrada");
             }
 
             if (imagemAtualizada.Arquivo == null && string.IsNullOrWhiteSpace(imagemAtualizada.Nome))
@@ -114,6 +113,7 @@ namespace GaleriaOnline.WebApi.Controllers
                 {
                     Directory.CreateDirectory(caminhoPasta);
                 }
+
                 var caminhoCompleto = Path.Combine(caminhoPasta, nomeArquivo);
 
                 using (var stream = new FileStream(caminhoCompleto, FileMode.Create))
@@ -139,13 +139,10 @@ namespace GaleriaOnline.WebApi.Controllers
             var imagem = await _repository.GetByIdAsync(id);
             if (imagem == null)
             {
-                return NotFound("imagem nao encontrada");
+                return NotFound("imagem não encontrada");
             }
 
-            var caminhoFisico = Path.Combine
-                (Directory.GetCurrentDirectory(),
-                imagem.Caminho.Replace("/",
-                Path.DirectorySeparatorChar.ToString()));
+            var caminhoFisico = Path.Combine(Directory.GetCurrentDirectory(), imagem.Caminho.Replace("/", Path.DirectorySeparatorChar.ToString()));
 
             if (System.IO.File.Exists(caminhoFisico))
             {
@@ -153,16 +150,16 @@ namespace GaleriaOnline.WebApi.Controllers
                 {
                     System.IO.File.Delete(caminhoFisico);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
-                    return StatusCode(500, $"Erro ap excluir o arquivo: {ex.Message}");
+                    return StatusCode(500, $"Erro ao excluir o arquivo: {ex.Message}");
                 }
             }
 
             var deletado = await _repository.DeleteAsync(id);
             if (!deletado)
             {
-                return StatusCode(500, "Errro ao excluir imagem do banco");
+                return StatusCode(500, "Erro ao excluir imagem do banco");
             }
 
             return NoContent();
