@@ -1,0 +1,94 @@
+.tituloGaleria {
+    color: #577C8E;
+    font-weight: 300;
+    font-size: 50px;
+    text-align: center;
+    margin: 50px 0 50px 0;
+}
+.formulario {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   gap: 50px;
+   width: 100%;
+}
+.campoNome {
+    width: 40%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.campoImagem {
+    width: 10%;
+}
+.inputNome,
+.arquivoLabel {
+    background-color: white;
+    border: none;
+
+    width: 100%;
+    height: 40px;
+
+    border-radius: 6px;
+    outline: none;
+    padding: 0 7px 0 7px;
+
+}
+.campoNome label {
+    color: #577C8E;
+}
+
+.arquivoInput{
+    display: none;
+}
+
+.arquivoLabel {
+    border-radius: 5px;
+    display: block;
+    cursor: pointer;
+    text-align: center;
+    align-content: center;
+}
+
+
+.campoCards {
+   padding: 50px;
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: center;
+   gap: 50px;
+}
+
+.swal2-confirm {
+  background: linear-gradient(90deg, red, orange, yellow, green, cyan, blue, violet);
+  background-size: 400% 400%;
+  animation: rgbFlow 8s infinite linear;
+  color: #fff !important;
+  font-weight: bold;
+  border: none !important;
+  border-radius: 12px !important;
+  box-shadow: 0 0 15px rgba(0,255,255,0.8);
+  transition: transform 0.2s ease-in-out;
+}
+
+.swal2-confirm:hover {
+  transform: scale(1.07);
+}
+
+@keyframes rgbFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+
+@media screen and (max-width: 765px) {
+    .formulario {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 20px;
+        width: 100%;
+    }
+}

@@ -1,0 +1,46 @@
+/* Home.css */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #C7D9E5;
+}
+
+.home-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.home-container h1 {
+    font-size: 50px;
+    color: #577C8E;
+    font-family: "JetBrains Mono", monospace;
+}
+
+.home-container p {
+    font-size: 60px;
+  margin-bottom: 20px;
+  color: #577C8E;
+  font-family: "JetBrains Mono", monospace;
+}
+
+button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #2F4157;
+  border: none;
+  padding: 10px 70px;
+  border-radius: 6px;
+}
+
+button a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+   font-family: "JetBrains Mono", monospace;
+}
