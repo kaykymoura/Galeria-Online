@@ -1,0 +1,20 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.vsidx
+*.db
+*.dtbcache.v2
+
+# Build
+bin/
+obj/
+
+# Node / React
+node_modules/
+dist/
+build/
+*.log
+
+# Imagens temporárias
+wwwroot/imagens/*.tmp
